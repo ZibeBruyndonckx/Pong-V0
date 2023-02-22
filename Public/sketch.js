@@ -50,8 +50,8 @@ Pong game by Zibe.br sketch file
   //#region 
   ballX = 750;
   ballY = 350;
-  ballSpeedY = -6
-  ballSpeedX = 6;
+  //ballSpeedY = -6;
+  //ballSpeedX = 6;
   ballSize = 30;
   //#endregion
 
@@ -107,6 +107,7 @@ function newPaddleDown(data) {
 function isStarted(data) {
   start = data.s
   ballSpeedY = data.b
+  ballSpeedX = data.d
 }
 function isEnded(data) {
   start = data.e
@@ -121,12 +122,14 @@ function isEnded(data) {
 //GoStart CHANGED
 //#region 
 function goStart() {
-  ballSpeedY = random(-6, -7) || random(6, 7);
+  ballSpeedY = random(-6, -7);
+  ballSpeedX = random(-6, -7);
   start = true;
   console.log("Transfering isStarted: " + start);
   let data = {
     s: start,
-    b: ballSpeedY 
+    d: Math.abs(ballSpeedX),
+    b: ballSpeedY
   }
   socket.emit('isStarted', data);
 }
@@ -193,17 +196,16 @@ function draw() {
   if (ballX < 0 || ballX > 1500) {
     console.log("Again");
     start = false
-    ballSpeedY = random(-6, -7) || random(6, 7);
+    ballSpeedY = random(-6, -7)
     console.log("Transfering isEnded start = " + start);
     let data = {
      e: start,
-     p: ballSpeedY
+     p: math.abs(ballSpeedY)
     }
     socket.emit('isEnded', data);
     ballX = 750;
     ballY = 350;
     button.show();
-    ballSpeedX *= -1;
   }
 
   //Check for ball hitting player1 changed
