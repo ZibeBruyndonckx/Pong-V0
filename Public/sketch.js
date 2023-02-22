@@ -114,18 +114,17 @@ function isEnded(data) {
   ballX = 750;
   ballY = 350;
   button.show();
-  ballSpeedX *= -1;
-  data.p = ballSpeedY
+  ballSpeedX = data.p
+  ballSpeedX = data.q
 }
 //#endregion
 
 //GoStart CHANGED
 //#region 
 function goStart() {
-  ballSpeedY = random(-6, -7);
-  ballSpeedX = random(-6, -7);
+  ballSpeedY = random(-7, -8) || random(6, 7);
+  ballSpeedX = random(-7, -8) || random(6, 7);
   start = true;
-  console.log("Transfering isStarted: " + start);
   let data = {
     s: start,
     d: Math.abs(ballSpeedX),
@@ -196,11 +195,13 @@ function draw() {
   if (ballX < 0 || ballX > 1500) {
     console.log("Again");
     start = false
-    ballSpeedY = random(-6, -7)
+    ballSpeedX *= -1
+    ballSpeedY = random(-7, -8) || random(6, 7);
     console.log("Transfering isEnded start = " + start);
     let data = {
      e: start,
-     p: math.abs(ballSpeedY)
+     p: Math.abs(ballSpeedY),
+     q: ballSpeedX
     }
     socket.emit('isEnded', data);
     ballX = 750;
