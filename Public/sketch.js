@@ -39,6 +39,8 @@ Pong game by Zibe.br sketch file c
  //#region 
   let button;
   let start;
+  let input;
+  let ready;
   //#endregion
 
 //#endregion
@@ -67,11 +69,13 @@ Pong game by Zibe.br sketch file c
 
   //Button setup CHANGED
   //#region 
-  button = createButton("GO");
-  button.size(80,80)
+  button = createButton("READY");
+  button.size(80,80);
   button.position(750 - 30, 350 - 50);
-  button.mousePressed(goStart)
-  start = false
+  button.mousePressed(goReady);
+  start = false;
+  ready = 0;
+  input = createInput("Enter your name here");
   //#endregion
 
   //Background setup CHANGED
@@ -120,7 +124,12 @@ function isEnded(data) {
 //#endregion
 
 //GoStart CHANGED
-//#region 
+//#region
+function goReady() {
+  let readY = 1;
+
+}
+
 function goStart() {
   ballSpeedY = random(-7, -8) || random(6, 7);
   ballSpeedX = random(-7, -8) || random(6, 7);
@@ -151,7 +160,11 @@ function draw() {
   //#endregion
 
   //Start CHANGED
-  //#region 
+  //#region
+  if (readY === 1) {
+    button.style.backgroundColor = "green";
+  }
+
   if (start) {
     //Hide button CHANGED
     button.hide();
