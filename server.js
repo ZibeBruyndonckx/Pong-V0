@@ -1,5 +1,5 @@
 /*
-Pong game by Zibe.br server file
+Pong game by Zibe.br server file c
 */ 
 
 //Setup CHANGED
