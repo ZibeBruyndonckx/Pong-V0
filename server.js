@@ -37,36 +37,35 @@ io.on('connection', (socket) => {
   socket.on('isEnded', isEnded);
   socket.on('isYread', isYread);
   socket.on('isReadY', isReadY);
+  socket.on('isUserName1', isUserName1)
 
   // Server sending data
   function paddleMsgUp(data) {
     socket.broadcast.emit('paddleLocationUp', data);
     //console.log(data);
   }
-
   function paddleMsgDown(data) {
     socket.broadcast.emit('paddleLocationDown', data);
     //console.log(data);
   }
-
   function isStarted(data) {
     socket.broadcast.emit('isStarted', data);
     console.log(data + " isStarted");
   }
-
   function isEnded(data) {
     socket.broadcast.emit('isEnded', data);
     //console.log(data);
   }
-
   function isYread(data) {
-    socket.broadcast.emit('isYread', isYread);
-    console.log(data + " isYread");
+    socket.broadcast.emit('isYread', data);
+    console.log(data.w + " isYread");
   }
-
   function isReadY(data) {
-    socket.broadcast.emit('isReadY', isReadY);
-    console.log(data + " isReadY")
+    socket.broadcast.emit('isReadY', data);
+    console.log(data.v + " isReadY")
+  }
+  function isUserName1(data) {
+    socket.broadcast.emit('isUserName1', data);
   }
 });
 //#endregion
