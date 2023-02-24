@@ -1,12 +1,11 @@
 /*
 Pong game by Zibe.br Oneclass file
-*/ 
+*/
 
-//#region 
+//#region
 class Oneclass {
-
- //Setup CHANGED
- //#region 
+  //Setup CHANGED
+  //#region
   constructor() {
     this.x = random(0, width);
     this.y = 0;
@@ -16,20 +15,20 @@ class Oneclass {
     this.z = random(1, 3.5);
     this.a = random(50, 255);
   }
- //#endregion
+  //#endregion
 
- //Show CHANGED 
- //#region 
+  //Show CHANGED
+  //#region
   show() {
     noStroke();
     fill(this.r, this.g, this.b, this.a);
     textSize(25);
     text(1, this.x, this.y);
   }
- //#endregion
+  //#endregion
 
- //Fall CHANGED
- //#region  
+  //Fall CHANGED
+  //#region
   fall() {
     this.y += this.z;
     this.a -= this.z + 0.5;
@@ -40,6 +39,6 @@ class Oneclass {
       this.a -= this.z + 0.5;
     }
   }
- //#endregion 
+  //#endregion
 }
-//#endregion  
+//#endregion

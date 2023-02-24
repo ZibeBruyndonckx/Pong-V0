@@ -2,11 +2,10 @@
 Pong game by Zibe.br Zeroclass file
 */
 
-//#region 
+//#region
 class Zeroclass {
-  
- //Setup CHANGED
- //#region  
+  //Setup CHANGED
+  //#region
   constructor() {
     this.x = random(0, width);
     this.y = 0;
@@ -18,18 +17,18 @@ class Zeroclass {
   }
   //#endregion
 
- //Show CHANGED
- //#region  
+  //Show CHANGED
+  //#region
   show() {
     stroke(this.r, this.g, this.b, this.a);
     strokeWeight(2);
     noFill();
     ellipse(this.x, this.y, 10, 15);
   }
- //#endregion 
+  //#endregion
 
- //Fall CHANGED
- //#region 
+  //Fall CHANGED
+  //#region
   fall() {
     this.y += this.z;
     this.a -= this.z + 0.5;
@@ -40,6 +39,6 @@ class Zeroclass {
       this.a -= this.z + 0.5;
     }
   }
- //#endregion   
+  //#endregion
 }
-//#endregion  
+//#endregion

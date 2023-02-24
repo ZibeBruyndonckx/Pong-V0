@@ -107,7 +107,7 @@ function setup() {
   socket = io.connect("http://localhost:3000");
   socket.on("paddleLocationUp", newPaddleUp);
   socket.on("paddleLocationDown", newPaddleDown);
-  socket.on("isStarted", isStarted);
+  //socket.on("isStarted", isStarted);
   socket.on("isEnded", isEnded);
   socket.on("isYread", isYread);
   socket.on("isReadY", isReadY);
@@ -124,11 +124,8 @@ function newPaddleUp(data) {
 function newPaddleDown(data) {
   player1Y = data.y;
 }
-function isStarted(data) {
-  start = data.s;
-  ballSpeedY = data.b;
-  ballSpeedX = data.d;
-}
+//function isStarted(data) {
+//  start = data.s; }
 function isEnded(data) {
   start = data.e;
   ballX = 750;
@@ -136,18 +133,18 @@ function isEnded(data) {
   bUtton.show();
   ballSpeedX = data.p;
   ballSpeedX = data.q;
+  bUtton.style("background-color", "white");
 }
 function isYread(data) {
   Yread = data.w;
-  console.log("Y" + data.w);
-  console.log(readY, Yread);
+  ballSpeedY = data.b;
+  ballSpeedX = data.d;
   if (readY === 1 && Yread === 1) {
     goStart();
   }
 }
 function isReadY(data) {
   readY = data.v;
-  console.log(data.v + "Y");
   console.log(readY, Yread);
   if (readY === 1 && Yread === 1) {
     goStart();
@@ -162,17 +159,26 @@ function isUserName1(data) {
 //GoStart CHANGED
 //#region
 function goReadY() {
+  Yread = 0;
+  readY = 0;
   if (Yread === 1) {
     readY = 1;
     let data = {
       v: 1,
     };
     socket.emit("isReadY", data);
+    if (readY === 1 && Yread === 1) {
+      goStart();
+    }
   }
   if (Yread === 0) {
     Yread = 1;
+    ballSpeedY = random(-7, -8) || random(6, 7);
+    ballSpeedX = random(-7, -8) || random(6, 7);
     let data = {
       w: 1,
+      d: Math.abs(ballSpeedX),
+      b: ballSpeedY,
     };
     socket.emit("isYread", data);
   }
@@ -180,15 +186,10 @@ function goReadY() {
 }
 
 function goStart() {
-  ballSpeedY = random(-7, -8) || random(6, 7);
-  ballSpeedX = random(-7, -8) || random(6, 7);
   start = true;
-  let data = {
-    s: start,
-    d: Math.abs(ballSpeedX),
-    b: ballSpeedY,
-  };
-  socket.emit("isStarted", data);
+  //let data = {
+  //   s: start, }
+  //socket.emit("isStarted", data);
 }
 //#endregion
 
@@ -271,7 +272,9 @@ function draw() {
     socket.emit("isEnded", data);
     ballX = 750;
     ballY = 350;
-    button.show();
+    bUtton.show();
+    bUtton.style("background-color", "white");
+    bUtton.mousePressed(goReadY);
   }
 
   //Check for ball hitting player1 changed
