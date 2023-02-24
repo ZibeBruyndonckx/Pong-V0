@@ -2,6 +2,7 @@
 Pong game by Zibe.br Oneclass file
 */ 
 
+//#region 
 class Oneclass {
 
  //Setup CHANGED
@@ -41,4 +42,4 @@ class Oneclass {
   }
  //#endregion 
 }
-  
+//#endregion  

@@ -1,7 +1,8 @@
 /*
 Pong game by Zibe.br Zeroclass file
 */
- 
+
+//#region 
 class Zeroclass {
   
  //Setup CHANGED
@@ -41,4 +42,4 @@ class Zeroclass {
   }
  //#endregion   
 }
-  
+//#endregion  
