@@ -37,10 +37,12 @@ Pong game by Zibe.br sketch file c
 
  //Button preSetup CHANGED
  //#region 
-  let button;
+  let bUtton;
   let start;
   let input;
-  let ready;
+  let readY;
+  let Yread;
+  let bUttonClicked;
   //#endregion
 
 //#endregion
@@ -67,15 +69,18 @@ Pong game by Zibe.br sketch file c
   playerSpeed1 = 6;
   //#endregion
 
-  //Button setup CHANGED
+  //BUtton setup CHANGED
   //#region 
-  button = createButton("READY");
-  button.size(80,80);
-  button.position(750 - 30, 350 - 50);
-  button.mousePressed(goReady);
+  bUtton = createButton("READY");
+  bUttonClicked = false
+  bUtton.size(80,80);
+  bUtton.position(750 - 40, 350 - 40);
+  bUtton.mousePressed(goReadY);
   start = false;
-  ready = 0;
+  readY = 0;
+  Yread = 0;
   input = createInput("Enter your name here");
+  input.position(750 - 50, 350 + 100);
   //#endregion
 
   //Background setup CHANGED
@@ -96,6 +101,8 @@ Pong game by Zibe.br sketch file c
    socket.on('paddleLocationDown', newPaddleDown);
    socket.on('isStarted', isStarted);
    socket.on('isEnded', isEnded);
+   socket.on('isYread', isYread);
+   socket.on('isReadY', isReadY);
    //#endregion
 }
 //#endregion
@@ -103,31 +110,56 @@ Pong game by Zibe.br sketch file c
 //Receive data CHANGED
 //#region 
 function newPaddleUp(data) {
-  player1Y = data.y
+  player1Y = data.y;
 }
 function newPaddleDown(data) {
-  player1Y = data.y
+  player1Y = data.y;
 }
 function isStarted(data) {
-  start = data.s
-  ballSpeedY = data.b
-  ballSpeedX = data.d
+  start = data.s;
+  ballSpeedY = data.b;
+  ballSpeedX = data.d;
 }
 function isEnded(data) {
-  start = data.e
+  start = data.e;
   ballX = 750;
   ballY = 350;
-  button.show();
-  ballSpeedX = data.p
-  ballSpeedX = data.q
+  bUtton.show();
+  ballSpeedX = data.p;
+  ballSpeedX = data.q;
+}
+function isYread(data) {
+  Yread = data.r;
+}
+function isReadY(data) {
+  readY = data.t;
 }
 //#endregion
 
 //GoStart CHANGED
 //#region
-function goReady() {
-  let readY = 1;
+function goReadY() {
+ if (bUttonClicked === false) {
+  if (Yread === 1) {
+    readY = 1;
+    let data = {
+      t: readY
+    }
+    socket.emit('isReadY', data);
+  }
 
+  if (Yread === 0) {
+  Yread = 1;
+  let data = {
+    r: Yread
+  }
+  socket.emit('isYread', data);
+ }
+ bUtton.style('background-color', 'green'); 
+} bUttonClicked = true }
+
+if (readY + Yread === 2) {
+  goStart();
 }
 
 function goStart() {
@@ -161,13 +193,10 @@ function draw() {
 
   //Start CHANGED
   //#region
-  if (readY === 1) {
-    button.style.backgroundColor = "green";
-  }
-
   if (start) {
     //Hide button CHANGED
-    button.hide();
+    bUtton.hide();
+    text(input.value(), 10, 10)
 
     //Move the ball CHANGED
     ballY += ballSpeedY;
@@ -206,11 +235,9 @@ function draw() {
 
   //Check for ball hitting goal changed
   if (ballX < 0 || ballX > 1500) {
-    console.log("Again");
     start = false
     ballSpeedX *= -1
     ballSpeedY = random(-7, -8) || random(6, 7);
-    console.log("Transfering isEnded start = " + start);
     let data = {
      e: start,
      p: Math.abs(ballSpeedY),
