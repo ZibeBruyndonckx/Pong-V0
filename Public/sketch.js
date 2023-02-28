@@ -1,5 +1,5 @@
 /*
-Pong game by Zibe.br sketch file c
+Pong game by Zibe.br sketch file 
 */
 
 //PreSetup CHANGED
@@ -89,6 +89,8 @@ function setup() {
   myText = createP("Enter your name below.");
   myText.position(690, 420);
   myText.style("color", "white");
+  Yread = 0;
+  readY = 0;
   //#endregion
 
   //Background setup CHANGED
@@ -125,15 +127,10 @@ function newPaddleDown(data) {
   player1Y = data.y;
 }
 //function isStarted(data) {
-//  start = data.s; }
+//  start = data.s;
+//}
 function isEnded(data) {
-  start = data.e;
-  ballX = 750;
-  ballY = 350;
-  bUtton.show();
-  ballSpeedX = data.p;
-  ballSpeedX = data.q;
-  bUtton.style("background-color", "white");
+  ballSpeedY = data.p;
 }
 function isYread(data) {
   Yread = data.w;
@@ -145,7 +142,6 @@ function isYread(data) {
 }
 function isReadY(data) {
   readY = data.v;
-  console.log(readY, Yread);
   if (readY === 1 && Yread === 1) {
     goStart();
   }
@@ -159,8 +155,6 @@ function isUserName1(data) {
 //GoStart CHANGED
 //#region
 function goReadY() {
-  Yread = 0;
-  readY = 0;
   if (Yread === 1) {
     readY = 1;
     let data = {
@@ -181,15 +175,19 @@ function goReadY() {
       b: ballSpeedY,
     };
     socket.emit("isYread", data);
+    if (readY === 1 && Yread === 1) {
+      goStart();
+    }
   }
   bUtton.style("background-color", "green");
 }
 
 function goStart() {
   start = true;
-  //let data = {
-  //   s: start, }
-  //socket.emit("isStarted", data);
+  let data = {
+    s: start,
+  };
+  socket.emit("isStarted", data);
 }
 //#endregion
 
@@ -259,24 +257,6 @@ function draw() {
     ballSpeedY *= -1;
   }
 
-  //Check for ball hitting goal changed
-  if (ballX < 0 || ballX > 1500) {
-    start = false;
-    ballSpeedX *= -1;
-    ballSpeedY = random(-7, -8) || random(6, 7);
-    let data = {
-      e: start,
-      p: Math.abs(ballSpeedY),
-      q: ballSpeedX,
-    };
-    socket.emit("isEnded", data);
-    ballX = 750;
-    ballY = 350;
-    bUtton.show();
-    bUtton.style("background-color", "white");
-    bUtton.mousePressed(goReadY);
-  }
-
   //Check for ball hitting player1 changed
   if (
     ballX >= 1500 - playerWidth - playerWidth - 1 &&
@@ -293,6 +273,37 @@ function draw() {
     ballY <= player2Y + playerHeight
   ) {
     ballSpeedX *= -1;
+  }
+  //#endregion
+
+  //Check ending changed
+  //#region
+  if (ballX < 0) {
+    start = false;
+    readY = 0;
+    Yread = 0;
+    ballSpeedX *= -1;
+    ballSpeedY = random(-7, -8) || random(6, 7);
+    let data = {
+      p: Math.abs(ballSpeedY),
+    };
+    socket.emit("isEnded", data);
+    ballX = 750;
+    ballY = 350;
+    bUtton.show();
+    bUtton.style("background-color", "white");
+    bUtton.mousePressed(goReadY);
+  }
+  if (ballX > 1500) {
+    start = false;
+    readY = 0;
+    Yread = 0;
+    ballSpeedX *= -1;
+    ballX = 750;
+    ballY = 350;
+    bUtton.show();
+    bUtton.style("background-color", "white");
+    bUtton.mousePressed(goReadY);
   }
   //#endregion
 

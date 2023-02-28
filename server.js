@@ -1,5 +1,5 @@
 /*
-Pong game by Zibe.br server file c
+Pong game by Zibe.br server file 
 */
 
 //Setup CHANGED
@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
 
   socket.on("paddleLocationUp", paddleMsgUp);
   socket.on("paddleLocationDown", paddleMsgDown);
-  // socket.on("isStarted", isStarted);
+  //socket.on("isStarted", isStarted);
   socket.on("isEnded", isEnded);
   socket.on("isYread", isYread);
   socket.on("isReadY", isReadY);
@@ -48,31 +48,24 @@ io.on("connection", (socket) => {
   // Server sending data
   function paddleMsgUp(data) {
     socket.broadcast.emit("paddleLocationUp", data);
-    //console.log(data);
   }
   function paddleMsgDown(data) {
     socket.broadcast.emit("paddleLocationDown", data);
-    //console.log(data);
   }
   //function isStarted(data) {
-  // socket.broadcast.emit("isStarted", data);
-  //console.log(data + " isStarted");
+  //socket.broadcast.emit("isStarted", data);
   //}
   function isEnded(data) {
     socket.broadcast.emit("isEnded", data);
-    //console.log(data);
   }
   function isYread(data) {
     socket.broadcast.emit("isYread", data);
-    //console.log(data.w + " isYread");
   }
   function isReadY(data) {
     socket.broadcast.emit("isReadY", data);
-    //console.log(data.v + " isReadY")
   }
   function isUserName1(data) {
     socket.broadcast.emit("isUserName1", data);
-    //console.log(data)
   }
 });
 //#endregion
